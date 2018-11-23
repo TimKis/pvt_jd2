@@ -25,4 +25,4 @@ JDK must be 9 or later, Maven 3.6 o later
           </configuration>
     </plugin>
 ````
-##
+## Copy /target/*.war into %CATALINA_HOME%/webapps/
