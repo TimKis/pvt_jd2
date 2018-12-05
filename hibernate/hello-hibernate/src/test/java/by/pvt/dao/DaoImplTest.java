@@ -7,6 +7,7 @@ import java.io.Serializable;
 import org.junit.*;
 
 import by.pvt.pojo.Person;
+import by.pvt.util.HibernateUtil;
 
 /**
  * @author alve
@@ -57,7 +58,10 @@ public class DaoImplTest {
         }
 
         Serializable id = dao.saveOrUpdate(new Person()).getId();
-        assertNotNull(dao.load(id));
+        Person loadedPerson = dao.load(id);
+        assertNotNull(loadedPerson);
+        assertNotNull(loadedPerson.getId());
+        assertEquals(id, loadedPerson.getId());
     }
 
     @Test
@@ -68,5 +72,50 @@ public class DaoImplTest {
         assertNotNull(dao.find(id));
     }
 
+    @Test
+    public void updateName() {
+        Person person = new Person();
+        person.setName("Vasia");
+        person.setSecondName("Ivanov");
+        person = dao.saveOrUpdate(person);
+        assertNotNull(person.getId());
+        assertEquals(person.getName(), "Vasia");
 
+        System.out.println("contains(person): " + HibernateUtil.getInstance().getSession().contains(person));
+        //person POJO is connected with current session
+        dao.updateName(person.getId(), "Petia");
+        assertEquals(person.getName(), "Petia");
+    }
+
+
+    @Test
+    public void updateNameWithExceptionAndRollback() {
+        Person person = new Person();
+        person.setName("Vasia");
+        person.setSecondName("Ivanov");
+        person = dao.saveOrUpdate(person);
+        assertNotNull(person.getId());
+        assertEquals(person.getName(), "Vasia");
+
+        // Throws exception, rollbacks transaction and closes session
+        dao.updateName(null, null);
+
+        System.out.println("contains(person): " + HibernateUtil.getInstance().getSession().contains(person));
+        //person POJO is disconnected from session and we need reread it
+        person = dao.load(person.getId());
+        dao.updateName(person.getId(), "Petia");
+        assertEquals(person.getName(), "Petia");
+    }
+
+
+    @Test
+    public void delete() {
+        Person person = new Person();
+        Serializable id = dao.saveOrUpdate(person).getId();
+        assertNotNull(id);
+
+        dao.delete(id);
+        assertNull(dao.find(id));
+        System.out.println(person);
+    }
 }
