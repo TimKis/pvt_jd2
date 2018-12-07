@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE hibernate-mapping PUBLIC ""
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="by.pvt.pojo">
+    
+    <class name="Company">
+        <id name="id">
+            <generator class="increment"/>
+        </id>
+        <property name="companyName"/>
+        <property name="siteUrl"/>
+        <component name="homeAddress">
+            <property name="city" column="homeCity"/>
+            <property name="street" column="homeStreet"/>
+            <property name="houseNumber" column="homeHouseNumber"/>
+            <property name="officeNumber" column="homeOfficeNumber"/>
+        </component>
+        <component name="legalAddress">
+            <property name="city"/>
+            <property name="street"/>
+            <property name="houseNumber"/>
+            <property name="officeNumber"/>
+        </component>
+    </class>
+    
+</hibernate-mapping>
