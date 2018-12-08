@@ -2,6 +2,7 @@ package by.pvt.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -21,6 +22,16 @@ public class Person implements Serializable {
     private Date dateOfBirth;
 
     private Address address;
+
+    public List<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<String> titles) {
+        this.titles = titles;
+    }
+
+    private List<String> titles;
 
     public String getId() {
         return id;

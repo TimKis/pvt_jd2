@@ -20,11 +20,7 @@ public class DaoImplTest {
     @Before
     public void setUp() throws Exception {
         dao = new DaoImpl<>(Person.class);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        dao = null;
+        DaoImpl.isTestInstance = true;
     }
 
     @Test
@@ -82,7 +78,7 @@ public class DaoImplTest {
         assertNotNull(person.getId());
         assertEquals(person.getName(), "Vasia");
 
-        System.out.println("contains(person): " + HibernateUtil.getInstance().getSession().contains(person));
+        System.out.println("contains(person): " + HibernateUtil.getInstance().getTestSession().contains(person));
         //person POJO is connected with current session
         dao.updateName(person.getId(), "Petia");
         assertEquals(person.getName(), "Petia");
@@ -101,7 +97,7 @@ public class DaoImplTest {
         // Throws exception, rollbacks transaction and closes session
         dao.updateName(null, null);
 
-        System.out.println("contains(person): " + HibernateUtil.getInstance().getSession().contains(person));
+        System.out.println("contains(person): " + HibernateUtil.getInstance().getTestSession().contains(person));
         //person POJO is disconnected from session and we need reread it
         person = dao.load(person.getId());
         dao.updateName(person.getId(), "Petia");
@@ -136,5 +132,11 @@ public class DaoImplTest {
         assertEquals("Lenina", person.getAddress().getStreet());
 
         System.out.println(person);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        DaoImpl.isTestInstance = false;
+        dao = null;
     }
 }

@@ -19,7 +19,7 @@ public class AddressTest {
                 "5",
                 24);
 
-        Session session = HibernateUtil.getInstance().getSession();
+        Session session = HibernateUtil.getInstance().getTestSession();
         session.saveOrUpdate(address);
         assertEquals(1L, address.getId());
         session.delete(address);
