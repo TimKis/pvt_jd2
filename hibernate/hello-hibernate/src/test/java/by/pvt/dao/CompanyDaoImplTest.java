@@ -60,6 +60,7 @@ public class CompanyDaoImplTest {
     }
 
 
+    @After
     public void tearDown() {
         DaoImpl.isTestInstance = false;
         companyDao = null;
