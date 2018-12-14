@@ -12,6 +12,13 @@ import by.pvt.util.HibernateUtil;
  */
 public class AddressTest {
 
+    Session session;
+
+    @Before
+    public void setUp() throws Exception {
+        session = HibernateUtil.getInstance().getTestSession();
+    }
+
     @Test
     public void getId() {
         Address address = new Address("Minsk",
@@ -19,12 +26,25 @@ public class AddressTest {
                 "5",
                 24);
 
-        Session session = HibernateUtil.getInstance().getTestSession();
-        session.saveOrUpdate(address);
-        assertEquals(1L, address.getId());
-        session.delete(address);
+        try {
+            session.beginTransaction();
+            session.saveOrUpdate(address);
+            assertTrue(address.getId() > 0);
+            session.delete(address);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
 
-        session.close();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if(session != null && session.isOpen()) {
+            session.close();
+            session = null;
+        }
     }
 
 }
