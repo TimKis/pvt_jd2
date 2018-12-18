@@ -102,16 +102,22 @@ public class EmployeeDaoImplTest {
         assertTrue(true);
     }
 
-    @Ignore
+    @Test
     public void step3_deleteEmployees() {
         Employee employee = employeeDao.load(1L);
-        employee.getDepartment().getEmployees().remove(employee);
+        Employee employee2 = employeeDao.load(2L);
+        employee.getDepartment().setEmployees(null);
 
         employeeDao.delete(1L);
         assertNull(employeeDao.find(1L));
-        //employeeDao.delete(1L);
 
-        //employeeDao.delete(3L);
+        employeeDao.delete(2L);
+        assertNull(employeeDao.find(2L));
+
+        Employee employee3 = employeeDao.load(3L);
+        employee3.getDepartment().setEmployees(null);
+        employeeDao.delete(3L);
+        assertNull(employeeDao.find(3L));
     }
 
 
