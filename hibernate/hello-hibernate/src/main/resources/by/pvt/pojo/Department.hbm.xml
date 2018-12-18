@@ -8,7 +8,7 @@
         </id>
         <property name="departmentName"/>
 
-        <set name="employees" cascade="save-update">
+        <set name="employees" cascade="save-update" lazy="true" fetch="join">
             <key column="department"/>
             <one-to-many class="Employee"/>
         </set>

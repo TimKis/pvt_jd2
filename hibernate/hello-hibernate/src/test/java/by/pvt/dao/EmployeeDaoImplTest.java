@@ -1,5 +1,6 @@
 package by.pvt.dao;
 
+import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 
 import java.util.Set;
@@ -96,6 +97,22 @@ public class EmployeeDaoImplTest {
         assertTrue(employee3.getId() == 3);
     }
 
+    @Test
+    public void step2_updateEmployees() {
+        assertTrue(true);
+    }
+
+    @Ignore
+    public void step3_deleteEmployees() {
+        Employee employee = employeeDao.load(1L);
+        employee.getDepartment().getEmployees().remove(employee);
+
+        employeeDao.delete(1L);
+        assertNull(employeeDao.find(1L));
+        //employeeDao.delete(1L);
+
+        //employeeDao.delete(3L);
+    }
 
 
     @After

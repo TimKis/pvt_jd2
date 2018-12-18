@@ -1,5 +1,7 @@
 package by.pvt.pojo;
 
+import java.util.Set;
+
 /**
  *
  */
@@ -11,6 +13,16 @@ public class Employee {
     private String cellPhone;
     private Department department;
     private EmployeeDetails employeeDetails;
+
+    private Set<Meeting> meetings;
+
+    public Set<Meeting> getMeetings() {
+        return meetings;
+    }
+
+    public void setMeetings(Set<Meeting> meetings) {
+        this.meetings = meetings;
+    }
 
     public long getId() {
         return id;
