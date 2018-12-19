@@ -20,7 +20,7 @@ public class AddressTest {
     }
 
     @Test
-    public void getId() {
+    public void createInstance() {
         Address address = new Address("Minsk",
                 "Stroiteley",
                 "5",
@@ -29,9 +29,8 @@ public class AddressTest {
         try {
             session.beginTransaction();
             session.saveOrUpdate(address);
-            assertTrue(address.getId() > 0);
-            session.delete(address);
             session.getTransaction().commit();
+            assertTrue(address.getId() > 0);
         } catch (Exception e) {
             e.printStackTrace();
             session.getTransaction().rollback();
