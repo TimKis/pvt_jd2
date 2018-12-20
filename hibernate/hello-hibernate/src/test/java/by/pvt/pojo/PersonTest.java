@@ -97,7 +97,7 @@ public class PersonTest {
         Session session2 = HibernateUtil.getInstance().getTestSession();
         try {
             session2.beginTransaction();
-            List<Person> list = session2.createQuery("from Person").list();
+            List<Person> list = session2.createQuery("from person").list();
             assertTrue(list.size() > 0);
             for(Person p: list) {
                 System.out.println("Person: " + p);

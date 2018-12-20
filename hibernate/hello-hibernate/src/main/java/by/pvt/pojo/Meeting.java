@@ -3,21 +3,37 @@ package by.pvt.pojo;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+
 /**
  *
  */
+@Entity
 public class Meeting {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column
     private String subject;
 
+    @OneToOne
     private Employee organizer;
 
-    private Set attendees;
+    @ManyToMany(mappedBy = "meetings")
+    private Set<Employee> attendees;
 
+    @Column
     private Date dateTime;
 
+    @Column
     private Status status;
 
     public Date getDateTime() {

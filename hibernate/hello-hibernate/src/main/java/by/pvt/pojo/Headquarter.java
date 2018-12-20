@@ -1,11 +1,22 @@
 package by.pvt.pojo;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
 /**
  *
  */
+@Entity
+//@PrimaryKeyJoinColumn(name = "id")
+/*@AttributeOverrides({
+        @AttributeOverride(name="id", column=@Column(name="id"))
+})*/
 public class Headquarter extends Company {
 
+    @Column
     private String directorName;
+
+    @Column
     private String bankAccount;
 
     public String getDirectorName() {

@@ -4,23 +4,54 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
  */
+@Entity(name = "person")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Person implements Serializable {
 
     private static final long serialVersionUID = -1781191857792849355L;
 
+    @Id
+    @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Column(name = "id")
     private String id;
+
+    @Column
     private String name;
+
+    @Column
     private String secondName;
+
+    @Column
     private int age;
+
+    @Column
     private Date dateOfBirth;
 
+    @ManyToOne(cascade = CascadeType.ALL)
     private Address address;
 
     public List<String> getTitles() {
@@ -31,6 +62,9 @@ public class Person implements Serializable {
         this.titles = titles;
     }
 
+    @ElementCollection
+    @CollectionTable(name = "title", joinColumns = @JoinColumn(name ="person_id"))
+    @Column(name = "titles")
     private List<String> titles;
 
     public String getId() {
@@ -96,7 +130,7 @@ public class Person implements Serializable {
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Person)) return false;
-        Person that = (Person)obj;
+        Person that = (Person) obj;
         return new EqualsBuilder()
                 .append(this.id, that.id)
                 .append(this.name, that.name)

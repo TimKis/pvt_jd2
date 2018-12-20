@@ -2,13 +2,28 @@ package by.pvt.pojo;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 /**
  *
  */
+@Entity
 public class Department {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column
     private String departmentName;
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.PERSIST)
     private Set<Employee> employees;
 
     public long getId() {

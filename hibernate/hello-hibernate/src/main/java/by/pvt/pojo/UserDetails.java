@@ -2,19 +2,33 @@ package by.pvt.pojo;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 /**
  *
  */
+@Entity
 public class UserDetails {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column
     private String password;
 
+    @Column
     private Timestamp expiredDate;
 
+    @Column
     private int loginAttempts;
 
+    @OneToOne
     private User user;
 
     public long getId() {

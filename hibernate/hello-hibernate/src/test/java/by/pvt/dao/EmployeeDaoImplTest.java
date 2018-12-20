@@ -102,7 +102,8 @@ public class EmployeeDaoImplTest {
         assertTrue(true);
     }
 
-    @Test
+    //@Test
+    @Ignore
     public void step3_deleteEmployees() {
         Employee employee = employeeDao.load(1L);
         Employee employee2 = employeeDao.load(2L);
