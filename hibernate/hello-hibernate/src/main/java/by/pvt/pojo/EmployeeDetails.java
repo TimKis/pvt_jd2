@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 public class EmployeeDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     private long id;
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -15,7 +15,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     @Column(name = "id")
     private long id;
 

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
@@ -18,7 +20,7 @@ import javax.persistence.OneToOne;
 public class Meeting {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     private long id;
 
     @Column
@@ -27,7 +29,10 @@ public class Meeting {
     @OneToOne
     private Employee organizer;
 
-    @ManyToMany//(mappedBy = "meetings")
+    @ManyToMany
+    @JoinTable(name = "employee_meeting",
+            joinColumns = {@JoinColumn(name = "meeting")},
+            inverseJoinColumns = {@JoinColumn(name = "employee")})
     private Set<Employee> attendees;
 
     @Column

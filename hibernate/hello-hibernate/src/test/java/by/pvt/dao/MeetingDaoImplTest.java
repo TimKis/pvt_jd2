@@ -62,13 +62,21 @@ public class MeetingDaoImplTest {
         assertTrue(meeting2.getId() == 2L);
     }
 
-    //@Test
-    @Ignore
+    @Test
     public void step3_deleteMeeting() {
         meetingDao.delete(1L);
         meetingDao.delete(2L);
         assertNull(meetingDao.find(1L));
         assertNull(meetingDao.find(2L));
+
+        employeeDao.delete(1L);
+        employeeDao.delete(2L);
+        employeeDao.delete(3L);
+        employeeDao.delete(4L);
+        assertNull(employeeDao.find(1L));
+        assertNull(employeeDao.find(2L));
+        assertNull(employeeDao.find(3L));
+        assertNull(employeeDao.find(4L));
     }
 
 

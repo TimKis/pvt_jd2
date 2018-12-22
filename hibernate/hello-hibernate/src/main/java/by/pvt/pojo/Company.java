@@ -18,7 +18,7 @@ import javax.persistence.OneToOne;
 public class Company {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     @Column(name = "id")
     private long id;
 
