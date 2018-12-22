@@ -39,7 +39,7 @@ public class Employee {
     @OneToOne(cascade = CascadeType.ALL)
     private EmployeeDetails employeeDetails;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "employee_meeting",
             joinColumns = {@JoinColumn(name = "employee")},
             inverseJoinColumns = {@JoinColumn(name = "meeting")})

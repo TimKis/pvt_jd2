@@ -27,7 +27,7 @@ public class Meeting {
     @OneToOne
     private Employee organizer;
 
-    @ManyToMany(mappedBy = "meetings")
+    @ManyToMany//(mappedBy = "meetings")
     private Set<Employee> attendees;
 
     @Column

@@ -62,7 +62,8 @@ public class MeetingDaoImplTest {
         assertTrue(meeting2.getId() == 2L);
     }
 
-    @Test
+    //@Test
+    @Ignore
     public void step3_deleteMeeting() {
         meetingDao.delete(1L);
         meetingDao.delete(2L);
