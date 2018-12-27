@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 public class UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     private long id;
 
     @Column

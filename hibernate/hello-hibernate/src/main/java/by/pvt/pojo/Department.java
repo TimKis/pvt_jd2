@@ -17,13 +17,13 @@ import javax.persistence.OneToMany;
 public class Department {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "increment")
     private long id;
 
     @Column
     private String departmentName;
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "department", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Set<Employee> employees;
 
     public long getId() {

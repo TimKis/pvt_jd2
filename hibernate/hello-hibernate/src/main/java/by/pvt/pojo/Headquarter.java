@@ -7,10 +7,6 @@ import javax.persistence.Entity;
  *
  */
 @Entity
-//@PrimaryKeyJoinColumn(name = "id")
-/*@AttributeOverrides({
-        @AttributeOverride(name="id", column=@Column(name="id"))
-})*/
 public class Headquarter extends Company {
 
     @Column
