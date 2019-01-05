@@ -1,19 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util" xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop.xsd">
+       http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-    <bean name="person" class="by.pvt.bean.PersonImpl">
+    <bean id="person" class="by.pvt.bean.PersonImpl" scope="singleton"
+    init-method="init" destroy-method="destroy" p:secondName="Gorbunkov">
         <property name="address" ref="address"/>
         <property name="name" value="Semen Semenovich"/>
-        <property name="secondName" value="Gorbunkov"/>
+        <!--<property name="secondName" value="Gorbunkov"/>-->
+        <property name="fullAddress" value="#{address.street + address.home}"/>
     </bean>
-    <bean name="address" class="by.pvt.bean.AddressImpl"/>
-    <bean name="personNotifier" class="by.pvt.bean.PersonNotifier"/>
+    <bean name="address" class="by.pvt.bean.AddressImpl">
+        <constructor-arg>
+            <value>25</value>
+        </constructor-arg>
+        <property name="flats">
+            <list>
+                <value>1.0</value>
+                <value>2d</value>
+                <value>3.02</value>
+            </list>
+        </property>
+        <property name="coordinates">
+            <map>
+                <entry key="12.123" value="34.3434"/>
+                <entry key="34.2323" value="12.1212"/>
+            </map>
+        </property>
+        <property name="home" value="#{62.5}"/>
+        <property name="street" value="#{'Строителей'}"/>
+        <property name="zipCode" value="#{T(by.pvt.bean.ZipCode).DEFAULT_ZIP}"/>
+        <property name="endOfStreet" value="#{(address.home lt 50.0) and (address.home gt 0.0)}"/>
+        <property name="theSameStreet" value="#{address.street eq 'Строителей' ? true : false}"/>
+        <property name="ihabitants" value="#{inhabitant.persons.![name]}"/>
+    </bean>
+
+    <bean name="personNotifier" class="by.pvt.bean.PersonNotifier">
+        <constructor-arg>
+            <null/>
+        </constructor-arg>
+        <constructor-arg value="1,2,3,4,5"/>
+    </bean>
+
+    <bean id="inhabitant" class="by.pvt.bean.Inhabitant">
+        <property name="persons">
+            <list>
+                <bean class="by.pvt.bean.PersonImpl">
+                    <property name="name" value="Name1"/>
+                    <property name="secondName" value="SecondName1"/>
+                    <property name="fullAddress" value="Stroiteley 25"/>
+                </bean>
+                <bean class="by.pvt.bean.PersonImpl">
+                    <property name="name" value="Name2"/>
+                    <property name="secondName" value="SecondName2"/>
+                </bean>
+                <bean class="by.pvt.bean.PersonImpl">
+                    <property name="name" value="Name3"/>
+                    <property name="secondName" value="SecondName3"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="manager" class="by.pvt.bean.Manager">
+        <property name="name" value="#{inhabitant.persons[0].name}"/>
+        <property name="secondName" value="#{inhabitant.persons[0].secondName}"/>
+        <property name="person" value="#{inhabitant.persons[0]}"/>
+    </bean>
+
+    <util:list id="people">
+        <bean class="by.pvt.bean.PersonImpl" p:id="1" p:name="Name1"/>
+        <bean class="by.pvt.bean.PersonImpl" p:id="2" p:name="Name2"/>
+        <bean class="by.pvt.bean.PersonImpl" p:id="3" p:name="Name3"/>
+        <bean class="by.pvt.bean.PersonImpl" p:id="4" p:name="Name4"/>
+    </util:list>
+
+    <bean id="filter" class="by.pvt.bean.FilterPerson">
+        <property name="property" value="#{people.$[id gt 1].name}"/>
+        <property name="person" value="#{people.^[id gt 1]}"/>
+        <property name="persons" value="#{people.?[id gt 2]}"/>
+    </bean>
+
     <aop:config>
         <aop:aspect ref="personNotifier">
             <aop:pointcut id="personPointCut" expression="execution(* *.getName(..))"/>

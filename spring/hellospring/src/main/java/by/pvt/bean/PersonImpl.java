@@ -1,13 +1,19 @@
 package by.pvt.bean;
 
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
 /**
  *
  */
-public class PersonImpl {
+public class PersonImpl implements InitializingBean, BeanNameAware, DisposableBean {
 
+    private long id;
     private String name;
     private String secondName;
     private Address address;
+    private String fullAddress;
 
     public PersonImpl(String name, String secondName, Address address) {
         this.name = name;
@@ -16,6 +22,14 @@ public class PersonImpl {
     }
 
     public PersonImpl() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -43,5 +57,32 @@ public class PersonImpl {
         this.address = address;
     }
 
+    void init() {
+        System.out.println("Init bean " + getClass().getName());
+    }
 
+    public void destroy() {
+        System.out.println("Destroy bean " + getClass().getName());
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("Call afterPropertiesSet()");
+    }
+
+    public void setBeanName(String s) {
+        System.out.println("Call setBeanName() name=" + s);
+    }
+
+    public String getFullAddress() {
+        return fullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
+    }
+
+    @Override
+    public String toString() {
+        return "Person name="+ "[" +getName() + "]" + super.toString();
+    }
 }
